@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KFC Locator</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      #mydivheader {
+      padding: 10px;
+      cursor: move;
+      z-index: 10;
+      background-color:transparent;
+
+      width: 100%;
+}
+    </style>
+    <link rel="icon" href="kfc.png" type="image/gif" sizes="16x16">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/style.css">
+    <script src="https://kit.fontawesome.com/c939d0e917.js"></script>
+    <script src="js/store-data.js"></script>
+  </head>
+  <body>
+
+    <div class="title"><span style="color: red;">KFC</span> Locator</div>
+    <div class="search-container">
+      <div class="search">
+        <input type="text" placeholder="Enter zip" id="zip-code-search">
+        <i class="fas fa-search" id="search-store-function-caller"></i>
+      </div>
+    </div>
+
+    <div class="stores-list-container">
+      
+      <div class="stores-list">
+        <div id="mydivheader">Click here to move</div>
+      
+      </div>
+    </div>
+
+    <div class="map-changer-container">
+      <select name="mapColor" id="map-color">
+        <option value="">Normal Map Style</option>
+        <option value="assasinsStyle">Assasins Style</option>
+        <option value="shadesOfGrayStyle">Shades Of GrayStyle</option>
+        <option value="blueWater">Blue Water</option>
+        <option value="snazzyMap">Snazzy Map</option>
+        <option value="neutralBlue">Neutral Blue</option>
+      </select>
+    </div>
+
+    <div id="map"></div>
+
+
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiQwlhJVQVWGV2lWkOJzwgPPFook3tu_4&callback=initMap"
+    async defer></script>
+    
+
+    <script>
+      // Make the DIV element draggable:
+dragElement(document.querySelector(".stores-list-container"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    // stop moving when mouse button is released:
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+    </script>
+  </body>
+</html>
